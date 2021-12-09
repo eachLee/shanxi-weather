@@ -1,7 +1,7 @@
 # QuietWeather
 一款天气应用微信小程序
 <p align='center'>
-    <!-- <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/mpcode.png'> -->
+    <img src='./img/mpcode.png'>
 </p>
 
 ## 截图

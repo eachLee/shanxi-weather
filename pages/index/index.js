@@ -155,9 +155,16 @@ Page({
       type: 'gcj02', // qq 必须
       success: (res) => {
         db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').get().then(res => {
-          this.clearInput()
-          console.log(res);
-          this.success(res.data, res.data.cityInfo.c5);
+          let nowDate = new Date(1639020013907).toJSON().slice(0, 10).replaceAll('-', '');
+          let oldDate = res.data.time.slice(0, 8);
+          console.log(nowDate, oldDate);
+          if (nowDate === oldDate) {
+            this.clearInput()
+            console.log(res);
+            this.success(res.data, res.data.cityInfo.c5);
+          } else {
+            // this.getWeather(`${res.longitude},${res.latitude}`)
+          }
         }).catch(() => {
           this.getWeather(`${res.longitude},${res.latitude}`)
           this.getHourly(`${res.longitude},${res.latitude}`)
