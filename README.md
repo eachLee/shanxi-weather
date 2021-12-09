@@ -9,10 +9,7 @@
     <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_1.png' style='width:300px;'>
     <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_2.png' style='width:300px;'>
     <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_3.png' style='width:300px;'>
-    <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_4.png' style='width:300px;'>
-
-<img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_5.png' style='width:300px;'>
-<img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_6.png' style='width:300px;'></div>
+    <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/screenshot_4.png' style='width:300px;'></div>
 
 ## 数据来源
 
