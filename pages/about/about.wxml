@@ -3,7 +3,9 @@
 </custom-navigation-bar>
 <view class='about'>
   <view class='content'>
-    <swiper indicator-color='#666666' indicator-active-color='#40a7e7' indicator-dots="true" autoplay="true" circular="true" interval="5000" duration="300" previous-margin="0px" next-margin="0px" style='height:{{swiperHeight}}'>
+    <swiper indicator-color='#666666' indicator-active-color='#40a7e7' indicator-dots="true" autoplay="true"
+      circular="true" interval="5000" duration="300" previous-margin="0px" next-margin="0px"
+      style='height:{{swiperHeight}}'>
       <block wx:for="{{bannerImgList}}" wx:key="index">
         <swiper-item>
           <view class='info' data-index='{{index}}' catchtap='previewImages'>
@@ -69,9 +71,9 @@
         <view class='icon'>
           <image src='/img/weather.png'></image>
         </view>
-        <view class='text'>气象数据来源：和风天气</view>
+        <view class='text'>气象数据来源：万维易源</view>
       </view>
     </view>
   </view>
-  <view class='footer'>开发者 · myvin</view>
+  <view class='footer'>开发者 · eachLee</view>
 </view>

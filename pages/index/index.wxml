@@ -43,7 +43,8 @@
       <view class='message'>{{message}}</view>
       <view class='temp num' decode='true'>{{cityDatas.now.temperature || '-'}}<text
           style='font-size:50rpx;position:relative;top:-20px;'>℃</text></view>
-      <view class='weather' style="position: relative; left: 0rpx; top: -1rpx">PM2.5 {{cityDatas.now.aqi || '--'}}</view>
+      <view class='weather' style="position: relative; left: 0rpx; top: -1rpx">PM2.5 {{cityDatas.now.aqi || '--'}}
+      </view>
       <view class='pm'>
         <text>空气质量 {{cityDatas.now.aqiDetail.quality}}</text>
       </view>
@@ -145,7 +146,7 @@
         <button open-type='feedback'>意见反馈</button>
       </view>
     </view>
-    <view wx:else class='footer'>开发者 · myvin</view> -->
+    <view wx:else class='footer'>开发者 · eachLee</view> -->
   </view>
   <view wx:if='{{openSettingButtonShow}}' class='openSettingButton'>
     <image src='/img/unlock.png'></image>

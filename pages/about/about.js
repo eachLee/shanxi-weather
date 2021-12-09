@@ -1,14 +1,14 @@
 let utils = require('../../utils/utils')
 Page({
   data: {
-    projectAddress: 'https://github.com/myvin/quietweather',
-    github: 'https://github.com/myvin',
-    email: '851399101@qq.com',
-    qq: '851399101',
+    projectAddress: 'https://github.com/eachLee/shanxi-weather',
+    github: 'https://github.com/eachLee',
+    email: '1318245851@qq.com',
+    qq: '1318245851',
     swiperHeight: 'auto',
     bannerImgList: [
       {
-        src: 'https://i.niupic.com/images/2021/09/30/9DC0.png',
+        src: 'https://636c-cloud1-2gjb0qbja55f57b5-1305532240.tcb.qcloud.la/mpcode.jpg',
         title: '善兮天气',
       },
     ],

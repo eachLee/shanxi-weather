@@ -214,9 +214,9 @@ Page({
       success: (res) => {
         if (res.statusCode === 200) {
           let data = res.data
-          if (data.showapi_res_code === 0) {
+          if (data.showApiKey_res_code === 0) {
             this.clearInput();
-            let weatherData = data.showapi_res_body;
+            let weatherData = data.showApiKey_res_body;
             let weartherDataObj = Object.assign({}, weatherData, {
               dailyForecast: [weatherData.f1, weatherData.f2, weatherData.f3, weatherData.f4, weatherData.f5, weatherData.f6, weatherData.f7]
             })
