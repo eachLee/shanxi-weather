@@ -43,22 +43,34 @@
       <view class='message'>{{message}}</view>
       <view class='temp num' decode='true'>{{cityDatas.now.temperature || '-'}}<text
           style='font-size:50rpx;position:relative;top:-20px;'>℃</text></view>
-      <view class='weather'>PM2.5 {{cityDatas.now.aqi || '--'}}</view>
+      <view class='weather' style="position: relative; left: 0rpx; top: -1rpx">PM2.5 {{cityDatas.now.aqi || '--'}}</view>
       <view class='pm'>
         <text>空气质量 {{cityDatas.now.aqiDetail.quality}}</text>
       </view>
     </view>
-    <view class='guide' wx:if='{{cityDatas.daily_forecast}}'>
-      <view class='title'>3 天预报</view>
-      <view class='guides'>
-        <view class='item' wx:for='{{cityDatas.daily_forecast}}' wx:key='index'>
-          <view class='date i'>{{item.date}}</view>
-          <view class='temperature i'>{{item.tmp_max}}~{{item.tmp_min}}℃</view>
-          <view class='weather i'>
-            <text>{{item.cond_txt_d}}</text>
-            <image mode='widthFix' src='{{weatherIconUrl}}{{item.cond_code_d}}.png'></image>
+    <view wx:if="{{cityDatas.alarmList.length}}">
+      <view wx:for="{{cityDatas.alarmList}}" wx:key="index" class='message'>
+        <view wx:if="{{index===0}}">
+          <view class="warn">
+            <icon class="icon-box-img" type="warn" color="{{warnColor[item.signalLevel]}}" size="22"></icon>
+            <text>{{item.signalType}}{{item.signalLevel}}预警</text>
           </view>
-          <view class='wind i'>{{item.wind_dir}}{{item.wind_sc}}级</view>
+          <text>{{item.issueContent}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='guide' wx:if='{{cityDatas.dailyForecast}}'>
+      <view class='title'>7 天预报</view>
+      <view class='guides'>
+        <view class='item' wx:for='{{cityDatas.dailyForecast}}' wx:key='index'>
+          <view class='date i'>星期{{weekDayCn[item.weekday]}}</view>
+          <view class='date i'>{{item.day}}</view>
+          <view class='weather i'>
+            <text>{{item.day_weather}}</text>
+            <image mode='widthFix' src='{{item.day_weather_pic}}'></image>
+          </view>
+          <view class='temperature i'>{{item.night_air_temperature}}~{{item.day_air_temperature}}℃</view>
+          <view class='wind i'>{{item.day_wind_direction}}{{item.day_wind_power}}</view>
         </view>
       </view>
     </view>
@@ -68,63 +80,51 @@
         <view>{{cityDatas.now[item]}}</view>
       </view>
     </view> -->
-    <view class='hourly' wx:if='{{hourlyDatas.length}}'>
+    <view class='hourly' wx:if='{{cityDatas.f1["3hourForcast"].length}}'>
       <view class='title'>24 小时逐 3 小时预报</view>
       <view class='hours'>
-        <swiper style='height:360rpx;' indicator-dots="{{false}}" autoplay="{{false}}" circular="{{false}}"
+        <swiper style='height:252rpx;' indicator-dots="{{false}}" autoplay="{{false}}" circular="{{false}}"
           duration="300" next-margin="50rpx">
-          <block wx:for="{{hourlyDatas}}" wx:key="index">
+          <block wx:for="{{cityDatas.f1['3hourForcast']}}" wx:key="index">
             <swiper-item>
               <view class='hour'>
                 <view class='detail'>
-                  <view>温度(℃)</view>
-                  <view>{{item.tmp}}</view>
+                  <view>温度</view>
+                  <view>{{item.temperature}}℃</view>
                 </view>
                 <view class='detail'>
                   <view>天气</view>
                   <view class='weather'>
-                    <text>{{item.cond_txt}}</text>
-                    <image mode='widthFix' src='{{weatherIconUrl}}{{item.cond_code}}.png'></image>
+                    <text>{{item.weather}}</text>
+                    <image mode='widthFix' src='{{item.weather_pic}}'></image>
                   </view>
                 </view>
                 <view class='detail'>
                   <view>相对湿度(%)</view>
-                  <view>{{item.hum}}</view>
-                </view>
-                <view class='detail'>
-                  <view>露点温度(℃)</view>
-                  <view>{{item.dew}}</view>
+                  <view>{{item.sd}}</view>
                 </view>
                 <view class='detail'>
                   <view>降水概率</view>
-                  <view>{{item.pop}}</view>
+                  <view>{{item.precip}}</view>
                 </view>
                 <view class='detail'>
                   <view>风向</view>
-                  <view>{{item.wind_dir}}</view>
-                </view>
-                <view class='detail'>
-                  <view>风向角度(deg)</view>
-                  <view>{{item.wind_deg}}</view>
+                  <view>{{item.wind_direction}}</view>
                 </view>
                 <view class='detail'>
                   <view>风力(级)</view>
-                  <view>{{item.wind_sc}}</view>
+                  <view>{{item.wind_power}}</view>
                 </view>
                 <view class='detail'>
-                  <view>风速(mk/h)</view>
-                  <view>{{item.wind_spd}}</view>
+                  <view>最高温度</view>
+                  <view>{{item.temperature_max}}℃</view>
                 </view>
                 <view class='detail'>
-                  <view>气压(mb)</view>
-                  <view>{{item.pres}}</view>
-                </view>
-                <view class='detail'>
-                  <view>云量</view>
-                  <view>{{item.cloud}}</view>
+                  <view>最低温度</view>
+                  <view>{{item.temperature_min}}℃</view>
                 </view>
               </view>
-              <view class='time'>{{item.time}}</view>
+              <view class='time'>{{item.hour}}</view>
             </swiper-item>
           </block>
         </swiper>
@@ -139,13 +139,13 @@
         </view>
       </view>
     </view>
-    <view wx:if="{{isWx}}" class="footer">
+    <!-- <view wx:if="{{isWx}}" class="footer">
       <view class="feedback">
         <view>意见反馈</view>
         <button open-type='feedback'>意见反馈</button>
       </view>
     </view>
-    <view wx:else class='footer'>开发者 · myvin</view>
+    <view wx:else class='footer'>开发者 · myvin</view> -->
   </view>
   <view wx:if='{{openSettingButtonShow}}' class='openSettingButton'>
     <image src='/img/unlock.png'></image>

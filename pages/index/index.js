@@ -10,9 +10,17 @@ Page({
     transparentClass: 'transparentClass',
     isIPhoneX: globalData.isIPhoneX,
     message: '',
+    poi: null,
     cityDatas: {},
     hourlyDatas: [],
     weatherIconUrl: globalData.weatherIconUrl,
+    weekDayCn: ['', '一', '二', '三', '四', '五', '六', '七'],
+    warnColor: {
+      '蓝色': 'blue',
+      '黄色': 'yellow',
+      '橙色': 'orange',
+      '红色': 'red',
+    },
     EnvironmentVars: {
       key: ['tmp', 'fl', 'hum', 'pcpn', 'wind_dir', 'wind_deg', 'wind_sc', 'wind_spd', 'vis', 'pres', 'cloud', ''],
       val: EnvironmentVars,
@@ -26,6 +34,8 @@ Page({
     animationOne: {},
     animationTwo: {},
     animationThree: {},
+    //下拉刷新时强制更新数据
+    forceRefresh: false,
     // 是否切换了城市
     located: true,
     // 需要查询的城市
@@ -61,9 +71,11 @@ Page({
     })
     this.setData({
       cityDatas: data,
-    })
+    });
+    console.log(this.data.cityDatas);
   },
   fail(res) {
+    console.log(res);
     wx.stopPullDownRefresh()
     let errMsg = res.errMsg || ''
     // 拒绝授权地理位置权限
@@ -86,14 +98,22 @@ Page({
         },
       })
     } else {
-      wx.showToast({
-        title: '网络不给力，请稍后再试',
-        icon: 'none',
-      })
+      if (errMsg.indexOf('频繁调用') > -1) {
+        wx.showToast({
+          title: '数据已是最新！',
+          icon: 'none',
+        })
+      } else {
+        wx.showToast({
+          title: '网络不给力，请稍后再试',
+          icon: 'none',
+        })
+      }
     }
   },
   commitSearch(res) {
     let val = ((res.detail || {}).value || '').replace(/\s+/g, '')
+    console.log('searchVal is ', val);
     this.search(val)
   },
   dance() {
@@ -131,7 +151,6 @@ Page({
         located: false,
       })
       this.getWeather(val)
-      this.getHourly(val)
     }
     callback && callback()
   },
@@ -151,45 +170,58 @@ Page({
     this.setData({
       located: true,
     })
-    wx.getLocation({
-      type: 'gcj02', // qq 必须
-      success: (res) => {
-        db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').get().then(res => {
-          let nowDate = new Date(1639020013907).toJSON().slice(0, 10).replaceAll('-', '');
-          let oldDate = res.data.time.slice(0, 8);
-          console.log(nowDate, oldDate);
-          if (nowDate === oldDate) {
-            this.clearInput()
-            console.log(res);
-            this.success(res.data, res.data.cityInfo.c5);
-          } else {
-            // this.getWeather(`${res.longitude},${res.latitude}`)
-          }
-        }).catch(() => {
-          this.getWeather(`${res.longitude},${res.latitude}`)
-          this.getHourly(`${res.longitude},${res.latitude}`)
-          callback && callback()
-        })
-      },
-      fail: (res) => {
-        this.fail(res)
-      }
-    })
+    if (this.data.poi && this.data.forceRefresh) {
+      this.getWeather({ lng: this.data.poi.longitude, lat: this.data.poi.latitude })
+      callback && callback()
+    } else {
+      wx.getLocation({
+        type: 'wgs84', // qq 必须
+        success: (poi) => {
+          this.setData({ poi });
+          db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').get().then(res => {
+            let nowDate = new Date(1639020013907).toJSON().slice(0, 10).replaceAll('-', '');
+            let oldDate = res.data.time.slice(0, 8);
+            if (nowDate === oldDate && !this.forceRefresh) {
+              this.clearInput()
+              this.success(res.data, res.data.cityInfo.c5);
+            } else {
+              this.getWeather({ lng: poi.longitude, lat: poi.latitude })
+            }
+          }).catch(() => {
+            this.getWeather({ lng: poi.longitude, lat: poi.latitude })
+            callback && callback()
+          })
+        },
+        fail: (res) => {
+          this.fail(res)
+        }
+      })
+    }
   },
   getWeather(location) {
+    console.log(location);
     wx.request({
       url: `${globalData.requestUrl.weather}`,
       data: {
-        location,
-        key,
+        ...location,
+        from: '1',
+        needMoreDay: '1',
+        needHourData: '1',
+        need3HourForcast: '1',
+        needIndex: '1',
+        needAlarm: '1',
       },
       success: (res) => {
         if (res.statusCode === 200) {
-          console.log(res);
-          let data = res.data.now
-          if (data.status === 'ok') {
-            this.clearInput()
-            this.success(data, location)
+          let data = res.data
+          if (data.showapi_res_code === 0) {
+            this.clearInput();
+            let weatherData = data.showapi_res_body;
+            let weartherDataObj = Object.assign({}, weatherData, {
+              dailyForecast: [weatherData.f1, weatherData.f2, weatherData.f3, weatherData.f4, weatherData.f5, weatherData.f6, weatherData.f7]
+            })
+            this.success(weartherDataObj, location);
+            db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').set({ data: weartherDataObj })
           } else {
             wx.showToast({
               title: '查询失败',
@@ -206,33 +238,10 @@ Page({
       },
     })
   },
-  getHourly(location) {
-    wx.request({
-      url: `${globalData.requestUrl.hourly}`,
-      data: {
-        location,
-        key,
-      },
-      success: (res) => {
-        console.log(res);
-        if (res.statusCode === 200) {
-          let data = res.data.HeWeather6[0]
-          if (data.status === 'ok') {
-            this.setData({
-              hourlyDatas: data.hourly || []
-            })
-          }
-        }
-      },
-      fail: () => {
-        wx.showToast({
-          title: '查询失败',
-          icon: 'none',
-        })
-      },
-    })
-  },
   onPullDownRefresh(res) {
+    this.setData({
+      forceRefresh: true,
+    })
     this.reloadWeather()
   },
   getCityDatas() {
