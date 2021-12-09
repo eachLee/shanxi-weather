@@ -1,0 +1,11 @@
+@import "/icon/iconfont.wxss";
+
+Page {
+  background: #f4f6f9;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.iphonex-padding {
+  padding-bottom: 68rpx;
+}
