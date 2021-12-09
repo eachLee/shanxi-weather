@@ -1,7 +1,7 @@
 # QuietWeather
 一款天气应用微信小程序
 <p align='center'>
-    <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/mpcode.png'>
+    <!-- <img src='https://raw.githubusercontent.com/myvin/miniprogram/master/quietweather/images/mpcode.png'> -->
 </p>
 
 ## 截图
@@ -24,16 +24,6 @@
 > * 在 `accountconfig.js` 中修改 `HeWeatherKey` 变量为你的和风天气的 `key`；
 > * Run and Enjoy!
 
-## 请喝咖啡
-如果我的项目对你有帮助，可以请我喝杯咖啡噢~
-
-### 支付宝
-
-<img src="https://raw.githubusercontent.com/myvin/miniprogram/master/9181893579988_.pic_hd.jpg" width="300" /> <img src="https://raw.githubusercontent.com/myvin/miniprogram/master/9191893579989_.pic.jpg" width="300" />
-
-### 微信
-
-<img src="https://raw.githubusercontent.com/myvin/miniprogram/master/9201893579990_.pic_hd.jpg" width="300" />
 
 ## License
 
