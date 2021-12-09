@@ -18,11 +18,13 @@
         </view> -->
         <view class='item'>
           <view>打开顶部城市天气快捷搜索</view>
-          <switch color='#40a7e7' checked='{{!setting.hiddenSearch}}'  bindchange='switchChange' data-switchparam='hiddenSearch'></switch>
+          <switch color='#40a7e7' checked='{{!setting.hiddenSearch}}' bindchange='switchChange'
+            data-switchparam='hiddenSearch'></switch>
         </view>
         <view class='item'>
           <view>显示生活指数信息</view>
-          <switch color='#40a7e7' checked='{{!setting.hiddenIndex}}' bindchange='switchChange' data-switchparam='hiddenIndex'></switch>
+          <switch color='#40a7e7' checked='{{!setting.hiddenIndex}}' bindchange='switchChange'
+            data-switchparam='hiddenIndex'></switch>
         </view>
       </view>
     </view>
@@ -41,7 +43,8 @@
               <text wx:if='{{!enableUpdate}}' style='flex:1;'>基础库版本需高于 1.9.90，当前基础库版本为 {{SDKVersion}}</text>
             </view>
           </view>
-          <switch color='#40a7e7' checked='{{setting.forceUpdate}}' bindchange='switchChange' data-switchParam='forceUpdate'></switch>
+          <switch color='#40a7e7' checked='{{setting.forceUpdate}}' bindchange='switchChange'
+            data-switchParam='forceUpdate'></switch>
         </view>
       </view>
     </view>
@@ -69,7 +72,9 @@
         <view class='item' catchtap='setScreenBrightness'>
           <view style='width:100%'>
             <view>设置屏幕亮度</view>
-            <slider value='{{screenBrightness}}' min='0' max='100' step='1' block-size='12' block-color='#40a7e7' activeColor='#40a7e7' show-value='true' bindchange='screenBrightnessChanging' bindchanging='screenBrightnessChanging'></slider>
+            <slider value='{{screenBrightness}}' min='0' max='100' step='1' block-size='12' block-color='#40a7e7'
+              activeColor='#40a7e7' show-value='true' bindchange='screenBrightnessChanging'
+              bindchanging='screenBrightnessChanging'></slider>
           </view>
           <!-- <view>设置屏幕亮度</view> -->
         </view>
@@ -83,7 +88,7 @@
       </view>
       <view class='content sub'>
         <view class='subtitle'>系统信息</view>
-        <view class='item'catchtap='getsysteminfo'>
+        <view class='item' catchtap='getsysteminfo'>
           <view>
             <view>查看系统信息</view>
           </view>
@@ -91,7 +96,6 @@
         </view>
       </view>
     </view>
-    <ad unit-id="adunit-387358f54209860f" ad-intervals="30"></ad>
     <!-- 清除数据 -->
     <view class='t'>
       <view class='title'>
@@ -117,7 +121,7 @@
           </view>
           <image class='more' src='/img/arrow.png'></image>
         </view>
-        <view class='item'  catchtap='removeStorage' data-type='all'>
+        <view class='item' catchtap='removeStorage' data-type='all'>
           <view>
             <view>清除所有本地数据</view>
             <view class='tip'>
@@ -138,7 +142,9 @@
         <view class='t'>兼容性</view>
         <view class='content'>由于小程序基础库从 1.9.90 开始支持 wx.getUpdateManager API，故基础库低于该版本的会忽略该设置。</view>
         <view class='t'>启动机制</view>
-        <view class='content'>小程序启动会有两种情况，一种是「冷启动」，一种是「热启动」。 假如用户已经打开过某小程序，然后在一定时间内再次打开该小程序，此时无需重新启动，只需将后台的小程序切换到前台，这个过程就是热启动；冷启动指的是用户首次打开或小程序被微信主动销毁后再次打开的情况，此时小程序需要重新加载启动。</view>
+        <view class='content'>小程序启动会有两种情况，一种是「冷启动」，一种是「热启动」。
+          假如用户已经打开过某小程序，然后在一定时间内再次打开该小程序，此时无需重新启动，只需将后台的小程序切换到前台，这个过程就是热启动；冷启动指的是用户首次打开或小程序被微信主动销毁后再次打开的情况，此时小程序需要重新加载启动。
+        </view>
         <view class='t'>更新机制</view>
         <view class='content'>小程序冷启动时如果发现有新版本，将会异步下载新版本的代码包，并同时用客户端本地的包进行启动，即新版本的小程序需要等下一次冷启动才会应用上。</view>
         <view class='t'>运行机制</view>
