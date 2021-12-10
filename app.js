@@ -24,8 +24,8 @@ App({
     isIPhoneX: false,
     weatherIconUrl: 'https://cdn.heweather.com/cond_icon/',
     requestUrl: {
-      weather: `https://route.showApiKey.com/9-5?showApiKey_appid=${showApiAppId}&showApiKey_sign=${showApiKey}`,
-      hourly: `https://route.showApiKey.com/9-8?showApiKey_appid=${showApiAppId}&showApiKey_sign=${showApiKey}`,
+      weather: `https://route.showapi.com/9-5?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}`,
+      hourly: `https://route.showapi.com/9-8?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}`,
     },
   },
 })
