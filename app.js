@@ -24,7 +24,8 @@ App({
     isIPhoneX: false,
     weatherIconUrl: 'https://cdn.heweather.com/cond_icon/',
     requestUrl: {
-      weather: `https://route.showapi.com/9-5?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}`,
+      weather: `https://route.showapi.com/9-5?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}prov=北京`,
+      oilprice: `https://route.showapi.com/138-46?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}`,
       hourly: `https://route.showapi.com/9-8?showapi_appid=${showApiAppId}&showapi_sign=${showApiKey}`,
     },
   },

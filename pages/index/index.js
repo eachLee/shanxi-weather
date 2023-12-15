@@ -170,6 +170,7 @@ Page({
     this.setData({
       located: true,
     })
+    // this.getOilPrice()
     if (this.data.poi && this.data.forceRefresh) {
       this.getWeather({ lng: this.data.poi.longitude, lat: this.data.poi.latitude })
       callback && callback()
@@ -198,8 +199,40 @@ Page({
       })
     }
   },
+  getOilPrice(){
+    wx.request({
+      url: `${globalData.requestUrl.oilprice}`,
+      method:"GET",
+      success: (res) => {
+        console.log(res);
+        if (res.statusCode === 200) {
+          let data = res.data
+          if (data.showapi_res_code === 0) {
+            this.clearInput();
+            let weatherData = data.showapi_res_body;
+            let weartherDataObj = Object.assign({}, weatherData, {
+              dailyForecast: [weatherData.f1, weatherData.f2, weatherData.f3, weatherData.f4, weatherData.f5, weatherData.f6, weatherData.f7]
+            })
+            this.success(weartherDataObj, location);
+            db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').set({ data: weartherDataObj })
+          } else {
+            console.log(res);
+            wx.showToast({
+              title: '查询失败',
+              icon: 'none',
+            })
+          }
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '查询失败',
+          icon: 'none',
+        })
+      },
+    })
+  },
   getWeather(location) {
-    console.log(location);
     wx.request({
       url: `${globalData.requestUrl.weather}`,
       data: {
@@ -223,6 +256,7 @@ Page({
             this.success(weartherDataObj, location);
             db.collection('weatherData').doc('c462c81061b051270121b6e471463dda').set({ data: weartherDataObj })
           } else {
+            console.log(res);
             wx.showToast({
               title: '查询失败',
               icon: 'none',
